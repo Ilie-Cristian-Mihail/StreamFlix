@@ -1,8 +1,14 @@
 Specifications
 
 1. The application must support playback of ‘.mkv’ and ‘.mp4’ video files.
+
 2. The application must support audio playback from ‘.mkv’ and ‘.mp4’ files.
-3. Both the videos and the application must function seamlessly across all devices and be responsive (TV, PC, Android).
+
+3. Both the videos and the application must function seamlessly across all devices and be responsive: 
+		- TV (Samsung, LG)
+		- Windows
+		- Linux (Ubuntu)
+
 4. The application must be easy to install and user-friendly for all users. *
 
 Note:
