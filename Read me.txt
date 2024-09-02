@@ -1,0 +1,8 @@
+Step 1: Put any movie you want in folder "movies" (eg: \..\StreamFlix\static\movies)
+Step 2: Put ".vtt" or ".srt" subtitle in "subtitles" folder (eg: \..\StreamFlix\static\movies\subtitles)
+Step 3: Double click on StreamFlix.bat
+Step 5: Copiaza link-ul care apare in consola in browser-ul tv-ului. (eg: * Running on http://xxx.xxx.xxx.xxx:5000)
+*Make sure it is "http" and not "https"
+*Make sure you are on the same network across all your devices
+Step 6: Select the movie thay you want from browser
+Step 7: Select the subtitle

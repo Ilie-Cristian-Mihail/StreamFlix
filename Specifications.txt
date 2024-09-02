@@ -1,0 +1,17 @@
+Specifications
+
+1. The application must support playback of ‘.mkv’ and ‘.mp4’ video files.
+
+2. The application must support audio playback from ‘.mkv’ and ‘.mp4’ files.
+
+3. Both the videos and the application must function seamlessly across all devices and be responsive: 
+		- TV (Samsung, LG)
+		- Windows
+		- Linux (Ubuntu)
+
+4. The subtitles must work with .vtt and .srt files and should be able to load it on any video.
+
+5. The application must be easy to install and user-friendly for all users. *
+
+Note:
+* This feature is still under development. An installer will be created for the users. For this will need to use InnoSetup and install all the dependinces
