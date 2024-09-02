@@ -1,50 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Movie Player</title>
-    <!-- Video.js CSS -->
-    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
-    <!-- Video.js JavaScript -->
-    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
-    <!--Stylesheet-->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
 
-  <body>
-    <div class="container">
-      <h1>Movie Player</h1>
-      <div id="movie-list">
-        <ul>
-          {% for movie in movies %}
-          <li>
-            <a
-              href="#"
-              onclick="playMovie('{{ url_for('movie', filename=movie) }}', '{{ movie }}')"
-              >{{ movie }}</a
-            >
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div id="player" style="display: none">
-        <video-js
-          id="video-player"
-          class="vjs-default-skin"
-          controls
-          preload="auto"
-          width="800"
-        >
+<head>
+  <meta charset="UTF-8" />
+  <title>Movie Player</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+  <!-- Video.js JavaScript -->
+  <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+  <!--Stylesheet-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>StreamFlix</h1>
+
+    <!-- Movie Player Container -->
+    <div id="movie-container" style="display: none;">
+      <!-- Movie Title Display -->
+      <div id="movie-title"></div>
+
+      <!-- Player section -->
+      <div id="player">
+        <video-js id="video-player" class="vjs-default-skin" controls preload="auto" width="800">
           <p class="vjs-no-js">
             To view this video please enable JavaScript, and consider upgrading
             to a web browser that
-            <a href="https://videojs.com/html5-video-support/" target="_blank"
-              >supports HTML5 video</a
-            >
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
           </p>
         </video-js>
         <br />
@@ -54,64 +37,45 @@
         </select>
       </div>
     </div>
-    <script>
-      function playMovie(movieUrl, movieFile) {
-        const playerDiv = document.getElementById("player");
-        const videoPlayer = videojs(document.getElementById("video-player"));
-        const subsSelect = document.getElementById("subs");
 
-        videoPlayer.src({ type: "video/mp4", src: movieUrl });
-        videoPlayer.load();
+    <!-- Movie list section -->
+    <div id="movie-list">
+      {% for movie in movies %}
+      <div class="movie-card">
+        <a href="#" onclick="playMovie('{{ url_for('movie', filename=movie) }}', '{{ movie }}')">
+          <div class="movie-icon">🎬</div> <!-- Iconul filmului -->
+          <span class="movie-title">{{ movie }}</span> <!-- Titlul filmului -->
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <footer>
+      <p>This application is free to use and accessible to everyone. There are no costs involved — except for the
+        popcorn
+        when you watch a movie!</p>
+    </footer>
+  </div>
 
-        playerDiv.style.display = "block";
+  <script src="{{ url_for('static', filename='videoJsPlayback.js') }}"></script>
+  <script>
+    function playMovie(movieUrl, movieFile) {
+      const movieContainer = document.getElementById("movie-container");
+      const videoPlayer = videojs(document.getElementById("video-player"));
+      const movieTitleDiv = document.getElementById("movie-title");
 
-        fetchSubtitles(movieFile);
-      }
+      videoPlayer.src({ type: "video/mp4", src: movieUrl });
+      videoPlayer.load();
 
-      function fetchSubtitles(movieFile) {
-        const subsSelect = document.getElementById("subs");
-        subsSelect.innerHTML = '<option value="">None</option>';
+      movieContainer.style.display = "block";
 
-        const movieBase = movieFile.split(".").slice(0, -1).join(".");
+      // Setează titlul filmului și îl aliniează la centru
+      movieTitleDiv.innerHTML = `<h2>${movieFile}</h2>`;
+      movieTitleDiv.style.display = "block";
 
-        fetch("/get_subtitles?movie=" + movieBase)
-          .then((response) => response.json())
-          .then((subtitles) => {
-            subtitles.forEach((sub) => {
-              const option = document.createElement("option");
-              option.value = sub;
-              option.text = sub.split("/").pop();
-              subsSelect.add(option);
-            });
-          });
-      }
+      fetchSubtitles(movieFile);
+    }
 
-      function addSubtitles() {
-        const videoPlayer = videojs(document.getElementById("video-player"));
-        const subsSelect = document.getElementById("subs");
-        const subtitleUrl = subsSelect.value;
+  </script>
+</body>
 
-        // Elimină orice subtitrare existentă
-        const tracks = videoPlayer.remoteTextTracks();
-        while (tracks.length > 0) {
-          videoPlayer.removeRemoteTextTrack(tracks[0]);
-        }
-
-        if (subtitleUrl) {
-          videoPlayer.addRemoteTextTrack(
-            {
-              kind: "subtitles",
-              src: subtitleUrl,
-              srclang: "ro", // Setează limba subtitrării ca română
-              label: "Română",
-              default: true,
-            },
-            false
-          ); // False pentru a nu forța reîncărcarea video-ului
-        }
-
-        videoPlayer.play(); // Redă video-ul după ce subtitrarea a fost adăugată
-      }
-    </script>
-  </body>
 </html>

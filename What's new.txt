@@ -1,0 +1,5 @@
+- Bug fix: .srt bug fixed (video-js is unable to read a .srt file. However, now you can add the .srt file, but it will automatically be converted to .vtt file when loaded)
+- Improvement: JavaScript file creation - dev purposes
+- Improvement: Now you can choose the subtitles and it will automatically be loaded. Also, the subtitle name was changed to "subtitles" rather than "romana"
+- Improvement: The style of the videos have been changed. Now looks more modern and responsive
+- Improvement: The video play button is now placed in the middle of the video
